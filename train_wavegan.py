@@ -1,22 +1,52 @@
+# Future statements change how your Python module is parsed,
+# which is why they must be at the top of the file.
+# They give new -- or different -- meaning to words or
+# symbols in your file.
 from __future__ import print_function
-import cPickle as pickle
+
+# On python3.x cPickle has changed to _pickle
+# import cPickle as pickle Original code
+import _pickle as pickle
+
+# The functions that the OS module provides allows you
+# to interface with the underlying operating system
+# that Python is running on – be that Windows, Mac or Linux.
 import os
 import time
 
 import numpy as np
 import tensorflow as tf
+
+# Six is a Python 2 and 3 compatibility library.
+# It provides utility functions for smoothing over
+# the differences between the Python versions with
+# the goal of writing Python code that is compatible
+# on both Python versions.
+# Python 3 reorganized the standard library and moved
+# several functions to different modules.
+# Six provides a consistent interface to them through
+# the fake six.moves module.
+# xrange provides a way to generate a list of integers
+# by yielding (on demand), using generators.
 from six.moves import xrange
 
 import loader
 from wavegan import WaveGANGenerator, WaveGANDiscriminator
+
+# Tools for Manipulating Functions
 from functools import reduce
 
 
 """
   Constants
 """
+
 _FS = 16000
+
+# We add one additional layer to the model resulting in 16384 samples,
+# slightly more than one second of audio at 16 kHz
 _WINDOW_LEN = 16384
+
 _D_Z = 100
 
 
