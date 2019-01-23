@@ -2,13 +2,15 @@ import tensorflow as tf
 
 
 def conv1d_transpose(
-    inputs,
-    filters,
-    kernel_width,
-    stride=4,
-    padding='same',
-    upsample='zeros'):
+      inputs,
+      filters,
+      kernel_width,
+      stride=4,
+      padding='same',
+      upsample='zeros'):
+
   if upsample == 'zeros':
+
     return tf.layers.conv2d_transpose(
         tf.expand_dims(inputs, axis=1),
         filters,
@@ -16,6 +18,7 @@ def conv1d_transpose(
         strides=(1, stride),
         padding='same'
         )[:, 0]
+
   elif upsample == 'nn':
     batch_size = tf.shape(inputs)[0]
     _, w, nch = inputs.get_shape().as_list()
@@ -32,13 +35,17 @@ def conv1d_transpose(
         kernel_width,
         1,
         padding='same')
+
   else:
     raise NotImplementedError
+
 
 """
   Input: [None, 100]
   Output: [None, 16384, 1]
 """
+
+
 def WaveGANGenerator(
     z,
     kernel_len=25,
@@ -46,6 +53,7 @@ def WaveGANGenerator(
     use_batchnorm=False,
     upsample='zeros',
     train=False):
+
   batch_size = tf.shape(z)[0]
 
   if use_batchnorm:
@@ -130,6 +138,8 @@ def apply_phaseshuffle(x, rad, pad_type='reflect'):
   Input: [None, 16384, 1]
   Output: [None] (linear output)
 """
+
+
 def WaveGANDiscriminator(
     x,
     kernel_len=25,
@@ -194,6 +204,7 @@ def WaveGANDiscriminator(
   with tf.variable_scope('output'):
     output = tf.layers.dense(output, 1)[:, 0]
 
-  # Don't need to aggregate batchnorm update ops like we do for the generator because we only use the discriminator for training
+  # Don't need to aggregate batchnorm update ops like we do for the generator because
+  # we only use the discriminator for training
 
   return output

@@ -257,11 +257,15 @@ def infer(args):
     os.makedirs(infer_dir)
 
   # Subgraph that generates latent vectors
+  # samp_z_n shape not specified, it's a scaler
   samp_z_n = tf.placeholder(tf.int32, [], name='samp_z_n')
+
+  # _D_Z = 100
   samp_z = tf.random_uniform([samp_z_n, _D_Z], -1.0, 1.0, dtype=tf.float32, name='samp_z')
 
   # Input zo
   z = tf.placeholder(tf.float32, [None, _D_Z], name='z')
+  # flat_pad shape not specified, it's a scalar
   flat_pad = tf.placeholder(tf.int32, [], name='flat_pad')
 
   # Execute generator
